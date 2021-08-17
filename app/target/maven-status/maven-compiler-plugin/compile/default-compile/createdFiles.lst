@@ -1,1 +1,5 @@
-com\tinkoff\edu\App.class
+com\tinkoff\edu\app\LoanCalcController.class
+com\tinkoff\edu\app\LoancalcLogger.class
+com\tinkoff\edu\app\LoancalcRepository.class
+com\tinkoff\edu\test\LoanCalcTest.class
+com\tinkoff\edu\app\LoanCalcService.class
