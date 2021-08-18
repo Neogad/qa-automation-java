@@ -1,7 +1,7 @@
 package com.tinkoff.edu.app;
 
 public class LoancalcLogger {
-    public static void log() {
-        System.out.println("calling ...");
+    public static void log(LoanRequest loanRequest) {
+        System.out.println("log: "+loanRequest);
     }
 }
