@@ -6,13 +6,7 @@ package com.tinkoff.edu.app;
 public class LoanRequest {
     private final int mounths;
     private final int amount;
-
-    public LoanType getLoanType() {
-        return loanType;
-    }
-
     private final LoanType loanType;
-
 
 
     public LoanRequest(int mounths, int amount, LoanType loanType) {
@@ -29,14 +23,19 @@ public class LoanRequest {
         return mounths;
     }
 
-    public String toString(){
+    public LoanType getLoanType() {
+        return loanType;
+    }
+
+
+    public String toString() {
         return "Request: "
-                +"Loan type "
-                +this.getLoanType()
-                +"; Amount "
-                +this.getAmount()
-                +"; Months "
-                +this.getMounths();
+                + "Loan type "
+                + this.getLoanType()
+                + "; Amount "
+                + this.getAmount()
+                + "; Months "
+                + this.getMounths();
 
 
     }
