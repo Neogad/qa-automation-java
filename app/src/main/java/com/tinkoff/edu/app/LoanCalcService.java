@@ -4,7 +4,10 @@ public class LoanCalcService {
     /**
      * TODO Loan calculation
      */
-    public static int createRequest() {
-        return LoancalcRepository.save();
+    public LoanResponce createRequest(LoanRequest loanRequest) {
+        LoancalcRepository loancalcRepository = new LoancalcRepository();
+        return loanRequest.getMounths() == 10 ? new LoanResponce(LoanResponceType.APPROVE, loanRequest, loancalcRepository.save(loanRequest)) :
+                new LoanResponce(LoanResponceType.DECLINE, loanRequest, loancalcRepository.save(loanRequest));
+
     }
 }
