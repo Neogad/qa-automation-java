@@ -5,6 +5,7 @@ import com.tinkoff.edu.app.LoanRequest;
 import com.tinkoff.edu.app.LoanResponce;
 import com.tinkoff.edu.app.LoanType;
 
+
 /**
  * Hello world!
  *
@@ -16,5 +17,6 @@ public class LoanCalcTest {
         LoanCalcController loanCalcController = new LoanCalcController();
         LoanResponce loanResponce = loanCalcController.createRequest(loanRequest);
         System.out.println(loanResponce);
+
     }
 }
