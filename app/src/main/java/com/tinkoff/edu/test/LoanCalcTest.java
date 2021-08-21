@@ -2,6 +2,7 @@ package com.tinkoff.edu.test;
 
 import com.tinkoff.edu.app.*;
 
+
 /**
  * Hello world!
  */
@@ -16,5 +17,6 @@ public class LoanCalcTest {
 
         LoanResponce loanResponce = loanCalcController.createRequest(loanRequest);
         System.out.println(loanResponce);
+
     }
 }
