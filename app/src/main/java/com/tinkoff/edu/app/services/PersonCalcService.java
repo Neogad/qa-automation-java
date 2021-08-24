@@ -16,8 +16,13 @@ public class PersonCalcService implements LoanCalcService {
      * TODO Loan calculation
      */
     public LoanResponce createRequest(LoanRequest loanRequest) {
-        return loanRequest.getLoanType().equals(LoanType.PERSON) ? repo.save(loanRequest,LoanResponceType.APPROVE) :
-                repo.save(loanRequest,LoanResponceType.DECLINE);
+        return loanRequest.getLoanType().equals(LoanType.PERSON) ? repo.save(loanRequest, LoanResponceType.APPROVE) :
+                repo.save(loanRequest, LoanResponceType.DECLINE);
 
+    }
+
+    @Override
+    public void setRequestId(int newRequestId) {
+        repo.setRequestId(newRequestId);
     }
 }

@@ -5,7 +5,17 @@ import com.tinkoff.edu.app.LoanResponce;
 import com.tinkoff.edu.app.enums.LoanResponceType;
 
 public class StaticVariableLoancalcRepository implements LoanCalcRepository {
-    private static int requestId;
+
+
+    private int requestId;
+
+    public int getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(int requestId) {
+        this.requestId = requestId;
+    }
 
     /**
      * TODO persists request
@@ -15,4 +25,6 @@ public class StaticVariableLoancalcRepository implements LoanCalcRepository {
     public LoanResponce save(LoanRequest loanRequest, LoanResponceType responceType) {
         return new LoanResponce(responceType, loanRequest, ++requestId);
     }
+
+
 }

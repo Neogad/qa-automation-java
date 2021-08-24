@@ -18,7 +18,7 @@ public class LoanCalcController {
     }
 
     public LoanCalcController(LoanCalcRepository repo) {
-         loanCalcService = new IpNotFriendlyService(repo);
+        loanCalcService = new IpNotFriendlyService(repo);
     }
 
     /**
@@ -29,5 +29,9 @@ public class LoanCalcController {
 
         return loanCalcService.createRequest(loanRequest);
 
+    }
+
+    public void setRequestId(int newRequestId) {
+        loanCalcService.setRequestId(newRequestId);
     }
 }
