@@ -1,5 +1,7 @@
 package com.tinkoff.edu.app;
 
+import com.tinkoff.edu.app.enums.LoanResponceType;
+
 public class LoanResponce {
     private LoanResponceType loanResponceType;
     private LoanRequest loanRequest;

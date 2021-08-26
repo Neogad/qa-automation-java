@@ -1,4 +1,10 @@
-package com.tinkoff.edu.app;
+package com.tinkoff.edu.app.controllers;
+
+import com.tinkoff.edu.app.*;
+import com.tinkoff.edu.app.loggers.LoancalcLogger;
+import com.tinkoff.edu.app.repositories.LoanCalcRepository;
+import com.tinkoff.edu.app.services.IpNotFriendlyService;
+import com.tinkoff.edu.app.services.LoanCalcService;
 
 /**
  *
@@ -11,10 +17,6 @@ public class LoanCalcController {
 
     }
 
-    public LoanCalcController(LoanCalcRepository repo) {
-         loanCalcService = new IpNotFriendlyService(repo);
-    }
-
     /**
      * TODO Validate and logs Request
      */
@@ -23,5 +25,9 @@ public class LoanCalcController {
 
         return loanCalcService.createRequest(loanRequest);
 
+    }
+
+    public void setRequestId(int newRequestId) {
+        loanCalcService.setRequestId(newRequestId);
     }
 }
