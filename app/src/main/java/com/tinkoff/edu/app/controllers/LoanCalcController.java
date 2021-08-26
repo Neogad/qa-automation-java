@@ -17,10 +17,6 @@ public class LoanCalcController {
 
     }
 
-    public LoanCalcController(LoanCalcRepository repo) {
-        loanCalcService = new IpNotFriendlyService(repo);
-    }
-
     /**
      * TODO Validate and logs Request
      */
