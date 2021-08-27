@@ -16,13 +16,29 @@ public class PersonCalcService implements LoanCalcService {
      * TODO Loan calculation
      */
     public LoanResponce createRequest(LoanRequest loanRequest) {
-        return loanRequest.getLoanType().equals(LoanType.PERSON) ? repo.save(loanRequest, LoanResponceType.APPROVE) :
-                repo.save(loanRequest, LoanResponceType.DECLINE);
+        final int AMOUNT = 10_000;
+        final int MOUTH = 12;
+
+        if (loanRequest == null) throw new IllegalArgumentException("loanRequest is null");
+
+        if(loanRequest.getAmount()<=0) throw new IllegalArgumentException("loanAmount zero or Negative");
+
+        if (loanRequest.getLoanType().equals(LoanType.PERSON)) {
+            if (loanRequest.getAmount() <= AMOUNT & loanRequest.getMounths() <= MOUTH) {
+                return repo.save(loanRequest, LoanResponceType.APPROVE);
+            } else if (loanRequest.getAmount() > AMOUNT & loanRequest.getMounths() > MOUTH) {
+                return repo.save(loanRequest, LoanResponceType.DECLINE);
+            }
+
+        } else if (loanRequest.getLoanType().equals(LoanType.OOO)) {
+              if (loanRequest.getAmount() > AMOUNT & loanRequest.getMounths() < MOUTH) {
+                return repo.save(loanRequest, LoanResponceType.APPROVE);
+            }
+        }
+            return repo.save(loanRequest, LoanResponceType.DECLINE);
+
+
 
     }
 
-    @Override
-    public void setRequestId(int newRequestId) {
-        repo.setRequestId(newRequestId);
-    }
 }

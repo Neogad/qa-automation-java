@@ -4,13 +4,18 @@ import com.tinkoff.edu.app.LoanRequest;
 import com.tinkoff.edu.app.LoanResponce;
 import com.tinkoff.edu.app.enums.LoanResponceType;
 
-public class StaticVariableLoancalcRepository implements LoanCalcRepository {
+public class VariableLoancalcRepository implements LoanCalcRepository {
 
 
     private int requestId;
 
-    public void setRequestId(int requestId) {
+
+    public VariableLoancalcRepository(int requestId) {
         this.requestId = requestId;
+    }
+
+    public VariableLoancalcRepository() {
+        this(0);
     }
 
     /**
