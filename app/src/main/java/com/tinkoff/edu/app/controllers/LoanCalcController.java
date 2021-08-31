@@ -2,8 +2,6 @@ package com.tinkoff.edu.app.controllers;
 
 import com.tinkoff.edu.app.*;
 import com.tinkoff.edu.app.loggers.LoancalcLogger;
-import com.tinkoff.edu.app.repositories.LoanCalcRepository;
-import com.tinkoff.edu.app.services.IpNotFriendlyService;
 import com.tinkoff.edu.app.services.LoanCalcService;
 
 /**
@@ -27,7 +25,4 @@ public class LoanCalcController {
 
     }
 
-    public void setRequestId(int newRequestId) {
-        loanCalcService.setRequestId(newRequestId);
-    }
 }
