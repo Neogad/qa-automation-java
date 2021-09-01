@@ -1,8 +1,11 @@
 package com.tinkoff.edu.app.controllers;
 
 import com.tinkoff.edu.app.*;
+import com.tinkoff.edu.app.enums.LoanResponceType;
 import com.tinkoff.edu.app.loggers.LoancalcLogger;
 import com.tinkoff.edu.app.services.LoanCalcService;
+
+import java.util.UUID;
 
 /**
  *
@@ -25,4 +28,12 @@ public class LoanCalcController {
 
     }
 
+
+    public LoanResponce getResponce(UUID uuid) {
+        return loanCalcService.getResponce(uuid);
+    }
+
+    public void updateResponce(UUID requestId, LoanResponceType loanResponceType) {
+        loanCalcService.updateResponce(requestId, loanResponceType);
+    }
 }

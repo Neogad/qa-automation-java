@@ -5,6 +5,8 @@ import com.tinkoff.edu.app.enums.LoanResponceType;
 import com.tinkoff.edu.app.enums.LoanType;
 import com.tinkoff.edu.app.repositories.LoanCalcRepository;
 
+import java.util.UUID;
+
 public class PersonCalcService implements LoanCalcService {
     private LoanCalcRepository repo;
 
@@ -21,24 +23,40 @@ public class PersonCalcService implements LoanCalcService {
 
         if (loanRequest == null) throw new IllegalArgumentException("loanRequest is null");
 
-        if(loanRequest.getAmount()<=0) throw new IllegalArgumentException("loanAmount zero or Negative");
+        if (loanRequest.getAmount() <= 0) throw new IllegalArgumentException("loanAmount zero or Negative");
 
-        if (loanRequest.getLoanType().equals(LoanType.PERSON)) {
-            if (loanRequest.getAmount() <= AMOUNT & loanRequest.getMounths() <= MOUTH) {
-                return repo.save(loanRequest, LoanResponceType.APPROVE);
-            } else if (loanRequest.getAmount() > AMOUNT & loanRequest.getMounths() > MOUTH) {
-                return repo.save(loanRequest, LoanResponceType.DECLINE);
+        switch (loanRequest.getLoanType()) {
+            case PERSON: {
+                if (loanRequest.getAmount() <= AMOUNT & loanRequest.getMounths() <= MOUTH) {
+                    return repo.save(loanRequest, LoanResponceType.APPROVE);
+                } else if (loanRequest.getAmount() > AMOUNT & loanRequest.getMounths() > MOUTH) {
+                    return repo.save(loanRequest, LoanResponceType.DECLINE);
+                }
+                break;
+            }
+            case OOO: {
+                if (loanRequest.getAmount() > AMOUNT & loanRequest.getMounths() < MOUTH) {
+                    return repo.save(loanRequest, LoanResponceType.APPROVE);
+                }
+                break;
             }
 
-        } else if (loanRequest.getLoanType().equals(LoanType.OOO)) {
-              if (loanRequest.getAmount() > AMOUNT & loanRequest.getMounths() < MOUTH) {
-                return repo.save(loanRequest, LoanResponceType.APPROVE);
-            }
         }
-            return repo.save(loanRequest, LoanResponceType.DECLINE);
-
+        return repo.save(loanRequest, LoanResponceType.DECLINE);
 
 
     }
+
+    @Override
+    public LoanResponce getResponce(UUID uuid) {
+        return repo.getResponce(uuid);
+    }
+
+
+    @Override
+    public void updateResponce(UUID requestId, LoanResponceType loanResponceType) {
+        repo.updateResponce(requestId, loanResponceType);
+    }
+
 
 }
