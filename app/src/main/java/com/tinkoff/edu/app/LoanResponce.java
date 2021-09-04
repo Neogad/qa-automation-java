@@ -3,22 +3,28 @@ package com.tinkoff.edu.app;
 import com.tinkoff.edu.app.enums.LoanResponceType;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class LoanResponce {
-    private LoanResponceType loanResponceType;
-    private int requestId;
 
-    public int getRequestId() {
+    private LoanResponceType loanResponceType;
+    private UUID requestId;
+
+    public UUID getRequestId() {
         return requestId;
     }
 
-    public LoanResponce(LoanResponceType loanResponceType, LoanRequest loanRequest, int requestId) {
+    public void setLoanResponceType(LoanResponceType loanResponceType) {
         this.loanResponceType = loanResponceType;
-        this.requestId = requestId;
     }
 
     public LoanResponceType getLoanResponceType() {
         return loanResponceType;
+    }
+
+    public LoanResponce(LoanResponceType loanResponceType, UUID requestId) {
+        this.loanResponceType = loanResponceType;
+        this.requestId = requestId;
     }
 
     public String toString(){
