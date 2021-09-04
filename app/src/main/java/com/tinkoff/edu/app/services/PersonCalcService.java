@@ -2,7 +2,6 @@ package com.tinkoff.edu.app.services;
 
 import com.tinkoff.edu.app.*;
 import com.tinkoff.edu.app.enums.LoanResponceType;
-import com.tinkoff.edu.app.enums.LoanType;
 import com.tinkoff.edu.app.repositories.LoanCalcRepository;
 
 import java.util.UUID;
@@ -17,13 +16,11 @@ public class PersonCalcService implements LoanCalcService {
     /**
      * TODO Loan calculation
      */
-    public LoanResponce createRequest(LoanRequest loanRequest) {
+    public LoanResponce createRequest(LoanRequest loanRequest)  {
         final int AMOUNT = 10_000;
         final int MOUTH = 12;
 
-        if (loanRequest == null) throw new IllegalArgumentException("loanRequest is null");
 
-        if (loanRequest.getAmount() <= 0) throw new IllegalArgumentException("loanAmount zero or Negative");
 
         switch (loanRequest.getLoanType()) {
             case PERSON: {
@@ -56,6 +53,16 @@ public class PersonCalcService implements LoanCalcService {
     @Override
     public void updateResponce(UUID requestId, LoanResponceType loanResponceType) {
         repo.updateResponce(requestId, loanResponceType);
+    }
+
+    @Override
+    public void createManyRequests(LoanRequest loanRequest,int count) {
+        int counter=0;
+        while (counter!=count){
+            repo.save(loanRequest, LoanResponceType.DECLINE);
+            counter++;
+        }
+
     }
 
 
