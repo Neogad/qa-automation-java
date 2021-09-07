@@ -8,8 +8,10 @@ import com.tinkoff.edu.app.enums.LoanResponceType;
 import com.tinkoff.edu.app.enums.LoanType;
 import com.tinkoff.edu.app.exceptions.ValidateRequestException;
 import com.tinkoff.edu.app.repositories.ArrayLoanCalcRepository;
+import com.tinkoff.edu.app.repositories.MapLoanCalcRepository;
 import com.tinkoff.edu.app.services.PersonCalcService;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +25,7 @@ public class AppTest {
 
     @BeforeAll
     public static void init() {
-        sut = new LoanCalcController(new PersonCalcService(new ArrayLoanCalcRepository()));
+        sut = new LoanCalcController(new PersonCalcService(new MapLoanCalcRepository()));
 
     }
 
@@ -241,6 +243,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка что если будет 100 записей приложение это обработает")
+    @Disabled
     public void shouldGetErrorWhen101Loans() {
         LoanCalcController sutFor100Loans = new LoanCalcController(new PersonCalcService(new ArrayLoanCalcRepository()));
 
@@ -254,6 +257,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка что если будет 100 записей мы сможем найти респонс")
+    @Disabled
     public void shouldGetResponce100Loans() throws ValidateRequestException {
         LoanCalcController sutFor100Loans = new LoanCalcController(new PersonCalcService(new ArrayLoanCalcRepository()));
 
@@ -267,6 +271,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка что если будет 100 записей мы сможем изменить Responce")
+    @Disabled
     public void shouldUpdateResponce100Loans() throws ValidateRequestException {
         LoanCalcController sutFor100Loans = new LoanCalcController(new PersonCalcService(new ArrayLoanCalcRepository()));
 
