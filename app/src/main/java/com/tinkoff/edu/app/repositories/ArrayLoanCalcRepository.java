@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class ArrayLoanCalcRepository implements LoanCalcRepository {
 
-    LoanResponce[] loanResponses = new LoanResponce[100000];
+    LoanResponce[] loanResponses = new LoanResponce[100];
     LoanResponce loanResponce;
     int responseCount;
 
@@ -17,8 +17,8 @@ public class ArrayLoanCalcRepository implements LoanCalcRepository {
         loanResponce = new LoanResponce(responceType, UUID.randomUUID());
         responseCount = ResponseCount();
         System.out.println(responseCount);
-        if (responseCount == 100000) {
-            return new LoanResponce(LoanResponceType.DECLINE, UUID.randomUUID());
+        if (responseCount == 100) {
+            throw new ArrayIndexOutOfBoundsException("responseCount =100");
         } else if (responseCount == 0) {
             loanResponses[0] = loanResponce;
             return loanResponce;
@@ -48,7 +48,7 @@ public class ArrayLoanCalcRepository implements LoanCalcRepository {
     @Override
     public LoanResponce getResponce(UUID uuid) {
         int i = 0;
-        for (; i < loanResponses.length; i++) {
+        for (; i < loanResponses.length-1; i++) {
             if (loanResponses[i].getRequestId() == uuid) {
                 break;
             }

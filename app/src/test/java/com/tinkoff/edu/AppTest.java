@@ -6,13 +6,14 @@ import com.tinkoff.edu.app.LoanResponce;
 import com.tinkoff.edu.app.controllers.LoanCalcController;
 import com.tinkoff.edu.app.enums.LoanResponceType;
 import com.tinkoff.edu.app.enums.LoanType;
+import com.tinkoff.edu.app.exceptions.ValidateRequestException;
 import com.tinkoff.edu.app.repositories.ArrayLoanCalcRepository;
 import com.tinkoff.edu.app.services.PersonCalcService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AppTest {
     private LoanRequest loanRequest;
@@ -30,13 +31,10 @@ public class AppTest {
     @Test
     @DisplayName("Проверка что если request null приложение это обработает")
     public void shouldGetErrorWhenApplyNullRequest() {
-        this.loanRequest = new LoanRequest(10, 0, LoanType.PERSON, fullName);
+        assertThrows(NullPointerException.class, () -> {
+            sut.createRequest(null);
+        });
 
-        try {
-            LoanResponce loanResponce = sut.createRequest(null);
-        } catch (IllegalArgumentException exception) {
-            assertEquals(exception.getClass(), IllegalArgumentException.class);
-        }
     }
 
     @Test
@@ -45,11 +43,9 @@ public class AppTest {
 
         this.loanRequest = new LoanRequest(10, 0, LoanType.PERSON, fullName);
 
-        try {
-            LoanResponce loanResponce = sut.createRequest(loanRequest);
-        } catch (IllegalArgumentException exception) {
-            assertEquals(exception.getClass(), IllegalArgumentException.class);
-        }
+        assertThrows(IllegalArgumentException.class, () -> {
+            sut.createRequest(loanRequest);
+        });
     }
 
     @Test
@@ -58,16 +54,16 @@ public class AppTest {
 
         this.loanRequest = new LoanRequest(10, -1, LoanType.PERSON, fullName);
 
-        try {
-            LoanResponce loanResponce = sut.createRequest(loanRequest);
-        } catch (IllegalArgumentException exception) {
-            assertEquals(exception.getClass(), IllegalArgumentException.class);
-        }
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            sut.createRequest(loanRequest);
+        });
+
     }
 
     @Test
     @DisplayName("Проверка что при правильных значениях loanResponce = Approved")
-    public void shouldGetApproveForPersonal1() {
+    public void shouldGetApproveForPersonal1() throws ValidateRequestException {
 
         this.loanRequest = new LoanRequest(1, 9_000, LoanType.PERSON, fullName);
 
@@ -78,7 +74,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка что при граничных значениях loanResponce = Approved")
-    public void shouldGetApproveForPersonal3() {
+    public void shouldGetApproveForPersonal3() throws ValidateRequestException {
 
         this.loanRequest = new LoanRequest(12, 10_000, LoanType.PERSON, fullName);
 
@@ -89,7 +85,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка что при правильных значениях loanResponce = Decline")
-    public void shouldGetDeclineForPersonal1() {
+    public void shouldGetDeclineForPersonal1() throws ValidateRequestException {
 
         this.loanRequest = new LoanRequest(23, 10_001, LoanType.PERSON, fullName);
 
@@ -100,7 +96,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка что при граничных значениях loanResponce = Decline")
-    public void shouldGetDeclineForPersonal2() {
+    public void shouldGetDeclineForPersonal2() throws ValidateRequestException {
 
         this.loanRequest = new LoanRequest(13, 10_001, LoanType.PERSON, fullName);
 
@@ -111,7 +107,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка что при правильных значениях loanResponce = Approved")
-    public void shouldGetApproveForOOO1() {
+    public void shouldGetApproveForOOO1() throws ValidateRequestException {
 
         this.loanRequest = new LoanRequest(10, 12_000, LoanType.OOO, fullName);
 
@@ -122,7 +118,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка что при граничных значениях loanResponce = Approved")
-    public void shouldGetApproveForOOO2() {
+    public void shouldGetApproveForOOO2() throws ValidateRequestException {
 
         this.loanRequest = new LoanRequest(11, 10_001, LoanType.OOO, fullName);
 
@@ -133,7 +129,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка что при правильных значениях loanResponce = Decline")
-    public void shouldGetDeclineForOOO1() {
+    public void shouldGetDeclineForOOO1() throws ValidateRequestException {
 
         this.loanRequest = new LoanRequest(14, 3000_001, LoanType.OOO, fullName);
 
@@ -144,7 +140,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка что при правильных значениях loanResponce = Decline")
-    public void shouldGetDeclineForOOO2() {
+    public void shouldGetDeclineForOOO2() throws ValidateRequestException {
 
         this.loanRequest = new LoanRequest(14, 1_001, LoanType.OOO, fullName);
 
@@ -155,7 +151,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка что при граничных значениях loanResponce = Decline")
-    public void shouldGetDeclineForOOO3() {
+    public void shouldGetDeclineForOOO3() throws ValidateRequestException {
 
         this.loanRequest = new LoanRequest(23, 10_000, LoanType.PERSON, fullName);
 
@@ -166,7 +162,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка что при граничных значениях loanResponce = Decline")
-    public void shouldGetDeclineForOOO4() {
+    public void shouldGetDeclineForOOO4() throws ValidateRequestException {
 
         this.loanRequest = new LoanRequest(12, 10_001, LoanType.PERSON, fullName);
 
@@ -177,7 +173,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка что при любых значениях loanResponce = Decline")
-    public void shouldGetDeclineForIP1() {
+    public void shouldGetDeclineForIP1() throws ValidateRequestException {
 
         this.loanRequest = new LoanRequest(12, 10_001, LoanType.IP, fullName);
 
@@ -188,28 +184,98 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка сохранения данных в массив")
-    public void shouldGeNotZero() {
+    public void shouldGeNotZero() throws ValidateRequestException {
 
         this.loanRequest = new LoanRequest(12, 10_001, LoanType.IP, fullName);
 
         LoanResponce loanResponce = sut.createRequest(loanRequest);
-
 
         assertEquals(loanResponce.getRequestId(), sut.getResponce(loanResponce.getRequestId()).getRequestId(), "Responce is not Saved");
     }
 
     @Test
     @DisplayName("Проверка изменения данных")
-    public void shouldBeUpdatet() {
+    public void shouldBeUpdate() throws ValidateRequestException {
 
         this.loanRequest = new LoanRequest(11, 1000, LoanType.PERSON, fullName);
 
         LoanResponce loanResponce = sut.createRequest(loanRequest);
 
-        sut.updateResponce(loanResponce.getRequestId() ,LoanResponceType.DECLINE);
-        assertEquals(LoanResponceType.DECLINE,loanResponce.getLoanResponceType(),"Response does not updated");
+        sut.updateResponce(loanResponce.getRequestId(), LoanResponceType.DECLINE);
+        assertEquals(LoanResponceType.DECLINE, loanResponce.getLoanResponceType(), "Response does not updated");
     }
 
+    @Test
+    @DisplayName("Проверка что если fullName null приложение это обработает")
+    public void shouldGetErrorWhenApplyNullRequestFullName() {
+        this.loanRequest = new LoanRequest(10, 0, LoanType.PERSON, null);
 
+        assertThrows(NullPointerException.class, () -> {
+            sut.createRequest(loanRequest);
+        });
+
+    }
+
+    @Test
+    @DisplayName("Проверка что если fullName <10 символов приложение это обработает")
+    public void shouldGetErrorWhenFulNameLess10() {
+        this.loanRequest = new LoanRequest(10, 1000, LoanType.PERSON, "123");
+
+        assertThrows(ValidateRequestException.class, () -> {
+            sut.createRequest(loanRequest);
+        });
+
+    }
+
+    @Test
+    @DisplayName("Проверка что если fullName >100 символов приложение это обработает")
+    public void shouldGetErrorWhenFulNameMore100() {
+        final String more100symbol = "999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999";
+        this.loanRequest = new LoanRequest(10, 1000, LoanType.PERSON, more100symbol);
+
+        assertThrows(ValidateRequestException.class, () -> {
+            sut.createRequest(loanRequest);
+        });
+
+    }
+
+    @Test
+    @DisplayName("Проверка что если будет 100 записей приложение это обработает")
+    public void shouldGetErrorWhen101Loans() {
+        LoanCalcController sutFor100Loans = new LoanCalcController(new PersonCalcService(new ArrayLoanCalcRepository()));
+
+        this.loanRequest = new LoanRequest(10, 1000, LoanType.PERSON, fullName);
+        sutFor100Loans.createManyRequests(loanRequest, 100);
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            sutFor100Loans.createRequest(loanRequest);
+        });
+
+    }
+
+    @Test
+    @DisplayName("Проверка что если будет 100 записей мы сможем найти респонс")
+    public void shouldGetResponce100Loans() throws ValidateRequestException {
+        LoanCalcController sutFor100Loans = new LoanCalcController(new PersonCalcService(new ArrayLoanCalcRepository()));
+
+        this.loanRequest = new LoanRequest(10, 1000, LoanType.PERSON, fullName);
+        sutFor100Loans.createManyRequests(loanRequest, 99);
+        LoanResponce loanResponce = sutFor100Loans.createRequest(loanRequest);
+        assertEquals(loanResponce.getRequestId(), sutFor100Loans.getResponce(loanResponce.getRequestId()).getRequestId(), "Responce is not Saved");
+
+
+    }
+
+    @Test
+    @DisplayName("Проверка что если будет 100 записей мы сможем изменить Responce")
+    public void shouldUpdateResponce100Loans() throws ValidateRequestException {
+        LoanCalcController sutFor100Loans = new LoanCalcController(new PersonCalcService(new ArrayLoanCalcRepository()));
+
+        this.loanRequest = new LoanRequest(10, 1000, LoanType.PERSON, fullName);
+        sutFor100Loans.createManyRequests(loanRequest, 99);
+        LoanResponce loanResponce = sutFor100Loans.createRequest(loanRequest);
+        sutFor100Loans.updateResponce(loanResponce.getRequestId(), LoanResponceType.DECLINE);
+        assertEquals(LoanResponceType.DECLINE, loanResponce.getLoanResponceType(), "Response does not updated");
+
+    }
 
 }
