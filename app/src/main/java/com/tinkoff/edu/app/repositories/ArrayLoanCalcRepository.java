@@ -49,7 +49,6 @@ public class ArrayLoanCalcRepository implements LoanCalcRepository {
     public LoanResponce getResponce(UUID uuid) {
         int i = 0;
         for (; i < loanResponses.length-1; i++) {
-
             if (loanResponses[i].getRequestId() == uuid) {
                 break;
             }

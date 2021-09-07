@@ -20,8 +20,6 @@ public class PersonCalcService implements LoanCalcService {
         final int AMOUNT = 10_000;
         final int MOUTH = 12;
 
-
-
         switch (loanRequest.getLoanType()) {
             case PERSON: {
                 if (loanRequest.getAmount() <= AMOUNT & loanRequest.getMounths() <= MOUTH) {
@@ -41,10 +39,7 @@ public class PersonCalcService implements LoanCalcService {
         }
         return repo.save(loanRequest, LoanResponceType.DECLINE);
 
-
-    }
-
-    @Override
+ @Override
     public LoanResponce getResponce(UUID uuid) {
         return repo.getResponce(uuid);
     }
