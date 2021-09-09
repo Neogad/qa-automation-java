@@ -6,7 +6,6 @@ import com.tinkoff.edu.app.enums.LoanType;
 import com.tinkoff.edu.app.exceptions.ValidateRequestException;
 import com.tinkoff.edu.app.loggers.LoancalcLogger;
 import com.tinkoff.edu.app.services.LoanCalcService;
-
 import java.util.Objects;
 import java.util.UUID;
 
