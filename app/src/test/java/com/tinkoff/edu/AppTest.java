@@ -7,11 +7,9 @@ import com.tinkoff.edu.app.controllers.LoanCalcController;
 import com.tinkoff.edu.app.enums.LoanResponceType;
 import com.tinkoff.edu.app.enums.LoanType;
 import com.tinkoff.edu.app.exceptions.ValidateRequestException;
-import com.tinkoff.edu.app.repositories.ArrayLoanCalcRepository;
 import com.tinkoff.edu.app.repositories.MapLoanCalcRepository;
 import com.tinkoff.edu.app.services.PersonCalcService;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -219,6 +217,17 @@ public class AppTest {
     }
 
     @Test
+    @DisplayName("Проверка что если loanType null приложение это обработает")
+    public void shouldGetErrorWhenApplyNullRequestLoanType() {
+        this.loanRequest = new LoanRequest(10, 0, null, fullName);
+
+        assertThrows(NullPointerException.class, () -> {
+            sut.createRequest(loanRequest);
+        });
+
+    }
+
+    @Test
     @DisplayName("Проверка что если fullName <10 символов приложение это обработает")
     public void shouldGetErrorWhenFulNameLess10() {
         this.loanRequest = new LoanRequest(10, 1000, LoanType.PERSON, "123");
@@ -241,46 +250,16 @@ public class AppTest {
 
     }
 
-    @Test
-    @DisplayName("Проверка что если будет 100 записей приложение это обработает")
-    @Disabled
-    public void shouldGetErrorWhen101Loans() {
-        LoanCalcController sutFor100Loans = new LoanCalcController(new PersonCalcService(new ArrayLoanCalcRepository()));
-
-        this.loanRequest = new LoanRequest(10, 1000, LoanType.PERSON, fullName);
-        sutFor100Loans.createManyRequests(loanRequest, 100);
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            sutFor100Loans.createRequest(loanRequest);
-        });
-
-    }
 
     @Test
-    @DisplayName("Проверка что если будет 100 записей мы сможем найти респонс")
-    @Disabled
-    public void shouldGetResponce100Loans() throws ValidateRequestException {
-        LoanCalcController sutFor100Loans = new LoanCalcController(new PersonCalcService(new ArrayLoanCalcRepository()));
+    @DisplayName("Проверка поиска по LoanType")
+    public void shouldGetAllWithLoanTypeOOO() throws ValidateRequestException {
 
-        this.loanRequest = new LoanRequest(10, 1000, LoanType.PERSON, fullName);
-        sutFor100Loans.createManyRequests(loanRequest, 99);
-        LoanResponce loanResponce = sutFor100Loans.createRequest(loanRequest);
-        assertEquals(loanResponce.getRequestId(), sutFor100Loans.getResponce(loanResponce.getRequestId()).getRequestId(), "Responce is not Saved");
+        this.loanRequest = new LoanRequest(12, 10_001, LoanType.OOO, fullName);
 
+        LoanResponce loanResponce = sut.createRequest(loanRequest);
 
-    }
-
-    @Test
-    @DisplayName("Проверка что если будет 100 записей мы сможем изменить Responce")
-    @Disabled
-    public void shouldUpdateResponce100Loans() throws ValidateRequestException {
-        LoanCalcController sutFor100Loans = new LoanCalcController(new PersonCalcService(new ArrayLoanCalcRepository()));
-
-        this.loanRequest = new LoanRequest(10, 1000, LoanType.PERSON, fullName);
-        sutFor100Loans.createManyRequests(loanRequest, 99);
-        LoanResponce loanResponce = sutFor100Loans.createRequest(loanRequest);
-        sutFor100Loans.updateResponce(loanResponce.getRequestId(), LoanResponceType.DECLINE);
-        assertEquals(LoanResponceType.DECLINE, loanResponce.getLoanResponceType(), "Response does not updated");
-
+        assertEquals(loanResponce.getRequestId(), sut.getResponce(LoanType.OOO).getRequestId(), "Responce is not OOO");
     }
 
 }

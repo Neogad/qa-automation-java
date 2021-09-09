@@ -2,6 +2,7 @@ package com.tinkoff.edu.app.services;
 
 import com.tinkoff.edu.app.*;
 import com.tinkoff.edu.app.enums.LoanResponceType;
+import com.tinkoff.edu.app.enums.LoanType;
 import com.tinkoff.edu.app.repositories.LoanCalcRepository;
 
 import java.util.UUID;
@@ -55,14 +56,11 @@ public class PersonCalcService implements LoanCalcService {
         repo.updateResponce(requestId, loanResponceType);
     }
 
-    @Override
-    public void createManyRequests(LoanRequest loanRequest,int count) {
-        int counter=0;
-        while (counter!=count){
-            repo.save(loanRequest, LoanResponceType.DECLINE);
-            counter++;
-        }
 
+
+    @Override
+    public LoanResponce getResponce(LoanType loanType)  {
+        return repo.getResponce(loanType);
     }
 
 

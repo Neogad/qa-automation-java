@@ -2,9 +2,11 @@ package com.tinkoff.edu.app.controllers;
 
 import com.tinkoff.edu.app.*;
 import com.tinkoff.edu.app.enums.LoanResponceType;
+import com.tinkoff.edu.app.enums.LoanType;
 import com.tinkoff.edu.app.exceptions.ValidateRequestException;
 import com.tinkoff.edu.app.loggers.LoancalcLogger;
 import com.tinkoff.edu.app.services.LoanCalcService;
+
 import java.util.Objects;
 import java.util.UUID;
 
@@ -23,7 +25,7 @@ public class LoanCalcController {
      * TODO Validate and logs Request
      */
     public LoanResponce createRequest(LoanRequest loanRequest) throws ValidateRequestException {
-        if (Objects.equals(loanRequest,null)|| loanRequest.getFullName() == null | loanRequest.getLoanType() == null)
+        if (Objects.equals(loanRequest, null) || loanRequest.getFullName() == null | loanRequest.getLoanType() == null)
             throw new NullPointerException("loanRequest is null");
 
 
@@ -31,7 +33,7 @@ public class LoanCalcController {
         LoancalcLogger.log(loanRequest);
 
 
-            ValidateRequest(loanRequest);
+        ValidateRequest(loanRequest);
 
 
         return loanCalcService.createRequest(loanRequest);
@@ -52,8 +54,10 @@ public class LoanCalcController {
         loanCalcService.updateResponce(requestId, loanResponceType);
     }
 
-    public void createManyRequests(LoanRequest loanRequest,int count) {
-         loanCalcService.createManyRequests(loanRequest,count);
+
+
+    public LoanResponce getResponce(LoanType loanType) {
+        return loanCalcService.getResponce(loanType);
 
     }
 }
