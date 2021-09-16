@@ -4,7 +4,6 @@ import com.tinkoff.edu.app.*;
 import com.tinkoff.edu.app.enums.LoanResponceType;
 import com.tinkoff.edu.app.enums.LoanType;
 import com.tinkoff.edu.app.repositories.LoanCalcRepository;
-
 import java.util.UUID;
 
 public class PersonCalcService implements LoanCalcService {
@@ -17,7 +16,7 @@ public class PersonCalcService implements LoanCalcService {
     /**
      * TODO Loan calculation
      */
-    public LoanResponce createRequest(LoanRequest loanRequest)  {
+    public LoanResponce createRequest(LoanRequest loanRequest) {
         final int AMOUNT = 10_000;
         final int MOUTH = 12;
 
@@ -39,6 +38,7 @@ public class PersonCalcService implements LoanCalcService {
 
         }
         return repo.save(loanRequest, LoanResponceType.DECLINE);
+    }
 
  @Override
     public LoanResponce getResponce(UUID uuid) {
