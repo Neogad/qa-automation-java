@@ -5,6 +5,7 @@ import com.tinkoff.edu.app.LoanResponce;
 import com.tinkoff.edu.app.enums.LoanResponceType;
 import com.tinkoff.edu.app.enums.LoanType;
 
+import java.io.IOException;
 import java.util.UUID;
 
 public interface LoanCalcRepository {

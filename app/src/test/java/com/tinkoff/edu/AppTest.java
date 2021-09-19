@@ -7,7 +7,7 @@ import com.tinkoff.edu.app.controllers.LoanCalcController;
 import com.tinkoff.edu.app.enums.LoanResponceType;
 import com.tinkoff.edu.app.enums.LoanType;
 import com.tinkoff.edu.app.exceptions.ValidateRequestException;
-import com.tinkoff.edu.app.repositories.MapLoanCalcRepository;
+import com.tinkoff.edu.app.repositories.FileLoanCalcRepository;
 import com.tinkoff.edu.app.services.PersonCalcService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +23,7 @@ public class AppTest {
 
     @BeforeAll
     public static void init() {
-        sut = new LoanCalcController(new PersonCalcService(new MapLoanCalcRepository()));
+        sut = new LoanCalcController(new PersonCalcService(new FileLoanCalcRepository()));
 
     }
 
@@ -202,6 +202,7 @@ public class AppTest {
         LoanResponce loanResponce = sut.createRequest(loanRequest);
 
         sut.updateResponce(loanResponce.getRequestId(), LoanResponceType.DECLINE);
+        loanResponce = sut.getResponce(loanResponce.getRequestId());
         assertEquals(LoanResponceType.DECLINE, loanResponce.getLoanResponceType(), "Response does not updated");
     }
 
