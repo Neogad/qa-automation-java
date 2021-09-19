@@ -17,7 +17,7 @@ public class PersonCalcService implements LoanCalcService {
     /**
      * TODO Loan calculation
      */
-    public LoanResponce createRequest(LoanRequest loanRequest)  {
+    public LoanResponce createRequest(LoanRequest loanRequest) {
         final int AMOUNT = 10_000;
         final int MOUTH = 12;
 
@@ -39,6 +39,7 @@ public class PersonCalcService implements LoanCalcService {
 
         }
         return repo.save(loanRequest, LoanResponceType.DECLINE);
+    }
 
  @Override
     public LoanResponce getResponce(UUID uuid) {
