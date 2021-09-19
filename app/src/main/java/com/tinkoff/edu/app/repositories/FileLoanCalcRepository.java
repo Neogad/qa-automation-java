@@ -24,7 +24,6 @@ public class FileLoanCalcRepository implements LoanCalcRepository {
     final String loanRequestFile = "LoanRequest.txt";
 
 
-
     @Override
     public LoanResponce save(LoanRequest loanRequest, LoanResponceType responceType) {
         requestId = UUID.randomUUID();
@@ -74,7 +73,7 @@ public class FileLoanCalcRepository implements LoanCalcRepository {
     }
 
     String[] parseString(String line) {
-        String[] resultList ;
+        String[] resultList;
         resultList = line.split(";");
         return resultList;
     }
@@ -92,8 +91,8 @@ public class FileLoanCalcRepository implements LoanCalcRepository {
         loanResponce = loanResponses.get(requestId);
         loanResponce.setLoanResponceType(loanResponceType);
         loanResponses.put(requestId, loanResponce);
-        for (LoanResponce loanResponseValue: loanResponses.values() ){
-            writeFile(loanResponseFile,loanResponseValue.toString());
+        for (LoanResponce loanResponseValue : loanResponses.values()) {
+            writeFile(loanResponseFile, loanResponseValue.toString());
         }
     }
 
