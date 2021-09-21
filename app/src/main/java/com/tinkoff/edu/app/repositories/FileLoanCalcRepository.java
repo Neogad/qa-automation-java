@@ -17,7 +17,7 @@ public class FileLoanCalcRepository implements LoanCalcRepository {
 
     LoanResponce loanResponce;
     UUID requestId;
-    String filePath = "src/main/java/com/tinkoff/edu/app/Files/";
+    String filePath = "src/main/resources/";
     Map<UUID, LoanResponce> loanResponses = new HashMap();
     Map<UUID, LoanRequest> loanRequestes = new HashMap();
     final String loanResponseFile = "LoanResponse.txt";
@@ -110,10 +110,9 @@ public class FileLoanCalcRepository implements LoanCalcRepository {
                 .collect(Collectors.toList());
 
 
-        return loanResponses.entrySet()
+        return loanResponses.values()
                 .stream()
-                .filter(loanResponceEntry -> Objects.equals(loanResponceEntry.getValue().getRequestId(), loanReq.get(0)))
-                .map(Map.Entry::getValue)
+                .filter(responce -> Objects.equals(responce.getRequestId(), loanReq.get(0)))
                 .collect(Collectors.toList()).get(0);
     }
 
