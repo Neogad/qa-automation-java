@@ -28,11 +28,10 @@ public class LoanResponce {
     }
 
     public String toString(){
-        return "Responce: "
-                +"LoanRequestId "
-                +this.getRequestId()
-                +"Solution "
-                +this.getLoanResponceType();
+        return  this.getRequestId()
+                +";"
+                +this.getLoanResponceType()
+                +";";
 
     }
 
