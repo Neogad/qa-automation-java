@@ -9,17 +9,63 @@ import com.tinkoff.edu.app.enums.LoanType;
 import com.tinkoff.edu.app.exceptions.ValidateRequestException;
 import com.tinkoff.edu.app.repositories.FileLoanCalcRepository;
 import com.tinkoff.edu.app.services.PersonCalcService;
+import com.tinkoff.edu.retrofit.Client;
+import com.tinkoff.edu.retrofit.ClientService;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
+import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+import io.restassured.response.ResponseBody;
+import io.restassured.specification.RequestSpecification;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
+import java.io.IOException;
+import java.util.List;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AppTest {
+    private  RequestSpecification requestSpecification;
     private LoanRequest loanRequest;
     private static LoanCalcController sut;
     private String fullName = "Имя Фамилия Отчество";
+    private  OkHttpClient.Builder httpClient;
+    private Retrofit retrofit;
+    ClientService clientService;
 
+    @BeforeEach
+    public  void initRequest(){
+        requestSpecification = given()
+                .baseUri("http://localhost")
+                .port(8080)
+                .basePath("/dbo/api/")
+                .header("X-API-VERSION", 1)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
+
+
+        httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+        retrofit = new Retrofit.Builder()
+                .addConverterFactory(JacksonConverterFactory.create())
+                .baseUrl("http://localhost:8080/dbo/api/")
+                .client(httpClient.build())
+                .build();
+
+        clientService= retrofit.create(ClientService.class);
+    }
 
     @BeforeAll
     public static void init() {
@@ -261,6 +307,78 @@ public class AppTest {
         LoanResponce loanResponce = sut.createRequest(loanRequest);
 
         assertEquals(loanResponce.getRequestId(), sut.getResponce(LoanType.OOO).getRequestId(), "Responce is not OOO");
+    }
+
+    @Test
+    public void shouldGetClientById() {
+        requestSpecification.when()
+                .get("/client/{id}",1)
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .body("id",equalTo(1),
+                        "login",equalTo("admin@acme.com"));
+    }
+
+    @Test
+    public void shouldErrorWhenAccountNotExist() {
+        requestSpecification.when()
+                .get("/client/{id}",0)
+                .then()
+                .statusCode(404);
+    }
+
+
+    @Test
+    public void shouldErrorWhenAccountNotExistDelete() {
+        requestSpecification.when()
+                .body("{\n"+
+                        " \"login\": \"test@mail.com\",\n"+
+                        " \"salt\": \"some-salt\",\n"+
+                        " \"secret\":\"749f09bade8aca7556749f09bade8aca7556\"\n"+
+                        "}").
+                post("client");
+
+        requestSpecification.when()
+                .delete("/client/{id}",3)
+                .then()
+                .statusCode(500);
+
+    }
+
+    @Test
+    public void shouldDeleteById() {
+       Response response = requestSpecification.when()
+                .body("{\n"+
+                        " \"login\": \"t12e1st1@mail.com\",\n"+
+                        " \"salt\": \"some-salt\",\n"+
+                        " \"secret\":\"749f09bade8aca7556749f09bade8aca7556\"\n"+
+                        "}").
+                post("client")
+               ;
+
+        JsonPath jsonPathEvaluator = response.jsonPath();
+        int id = jsonPathEvaluator.get("id");
+
+       String s= response.getBody().asString();
+        requestSpecification.when()
+                .delete("/client/{id}",id)
+                .then()
+                .statusCode(200);
+    }
+
+    @Test
+    public void shouldGetAllClients() throws IOException {
+        assertEquals(1,clientService.getClients().execute().body().get(0).getId());
+    }
+
+    @Test
+    public void shouldCreateClient() throws IOException {
+        Client client = new Client("1333456@test.com","somesalt","5aba80f0c9f7cfb0c7e8d5123aad85e8b384872e070c13a8fe6d11f58327934b");
+        clientService.createClient(client)
+                .execute();
+        List<Client>  clients = clientService.getClients().execute().body();
+        assertEquals(client.getLogin(),clients.get(clients.size()-1).getLogin());
+
     }
 
 }
