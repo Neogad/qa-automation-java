@@ -3,6 +3,7 @@ package com.tinkoff.edu.retrofit;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.annotation.processing.Generated;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,9 @@ public class Client {
         this.login = login;
         this.salt = salt;
         this.secret = secret;
+    }
+
+    public Client(String login, String secret, String salt, LocalDateTime now, boolean b) {
     }
 
     @JsonProperty("id")
@@ -35,6 +39,8 @@ public class Client {
     private String secret;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+
 
 
     public int getId() {
