@@ -29,6 +29,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.IOException;
+import java.sql.*;
+import java.time.Instant;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -43,6 +45,20 @@ public class AppTest {
     private  OkHttpClient.Builder httpClient;
     private Retrofit retrofit;
     ClientService clientService;
+
+    private RequestSpecification request;
+    private Connection connection;
+
+
+    @BeforeEach
+    public void setUpDbConnectcon() throws SQLException{
+        connection = DriverManager.getConnection("jdbc:derby://localhost/dbo-db");
+    }
+
+    @BeforeEach
+    public void closeDbConnecton()throws SQLException{
+        connection.close();
+    }
 
     @BeforeEach
     public  void initRequest(){

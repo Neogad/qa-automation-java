@@ -3,6 +3,7 @@ package com.tinkoff.edu.retrofit;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.annotation.processing.Generated;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,12 @@ public class Client {
 
     public Client(@JsonProperty("login") String login, @JsonProperty("salt") String salt, @JsonProperty("secret") String secret) {
         this.login = login;
+        this.salt = salt;
+        this.secret = secret;
+    }
+
+    public Client(String login, String secret, String salt, LocalDateTime now, boolean b) {
+       this.login = login;
         this.salt = salt;
         this.secret = secret;
     }
