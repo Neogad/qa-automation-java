@@ -20,6 +20,9 @@ public class Client {
     }
 
     public Client(String login, String secret, String salt, LocalDateTime now, boolean b) {
+       this.login = login;
+        this.salt = salt;
+        this.secret = secret;
     }
 
     @JsonProperty("id")
@@ -39,8 +42,6 @@ public class Client {
     private String secret;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-
 
 
     public int getId() {
